@@ -1,8 +1,8 @@
 import express from 'express';
-import {configDotenv} from "dotenv";
+import { configDotenv } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import router from './routes/index'
+// import router from './routes/'
 
 configDotenv();
 const port = process.env.PORT || 3000;
@@ -11,7 +11,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-app.use('/api', router);
 
 const start = () => {
   try {
@@ -21,6 +20,6 @@ const start = () => {
   } catch (ex) {
     console.log(ex.message);
   }
-}
+};
 
 start();

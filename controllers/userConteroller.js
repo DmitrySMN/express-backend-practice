@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 export const createUser = async (req, res) => {
   try {
@@ -22,7 +22,7 @@ export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.json(user);
   } catch (err) {
@@ -34,7 +34,7 @@ export const updateUser = async (req, res) => {
   try {
     const user = await User.update(req.params.id, req.body);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
     res.json(user);
   } catch (err) {
@@ -46,9 +46,9 @@ export const deleteUser = async (req, res) => {
   try {
     const user = await User.delete(req.params.id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
-    res.json({ message: 'User deleted successfully' });
+    res.json({ message: "User deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
