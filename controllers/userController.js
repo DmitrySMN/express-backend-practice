@@ -1,6 +1,6 @@
-const User = require("../models/User");
+const User = require("../models/User"); 
 
-export const createUser = async (req, res) => {
+exports.createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
     res.status(201).json(user);
@@ -9,7 +9,7 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const getAllUsers = async (req, res) => {
+exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll();
     res.json(users);
@@ -18,7 +18,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-export const getUserById = async (req, res) => {
+exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -30,7 +30,7 @@ export const getUserById = async (req, res) => {
   }
 };
 
-export const updateUser = async (req, res) => {
+exports.updateUser = async (req, res) => {
   try {
     const user = await User.update(req.params.id, req.body);
     if (!user) {
@@ -42,7 +42,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res) => {
   try {
     const user = await User.delete(req.params.id);
     if (!user) {

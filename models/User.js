@@ -1,4 +1,4 @@
-import pool from "../config/db";
+const pool = require('../config/db');
 
 class User {
   static async create({ username, email, password }) {
@@ -43,4 +43,4 @@ class User {
   }
 }
 
-export default User;
+module.exports = User;
