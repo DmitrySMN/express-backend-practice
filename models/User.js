@@ -1,7 +1,10 @@
+const dotenv = require('dotenv').configDotenv();
 const pool = require('../config/db');
+const bcrypt = require('bcrypt');
 
 class User {
   static async create({ username, email, password }) {
+    const hashPassword = await bcrypt.hash(password, 3);
     const query = `
           INSERT INTO users (username, email, password)
           VALUES ($1, $2, $3)
@@ -13,13 +16,13 @@ class User {
   }
 
   static async findAll() {
-    const query = "SELECT * FROM users;";
+    const query = 'SELECT * FROM users;';
     const { rows } = await pool.query(query);
     return rows;
   }
 
   static async findById(id) {
-    const query = "SELECT * FROM users WHERE id = $1;";
+    const query = 'SELECT * FROM users WHERE id = $1;';
     const { rows } = await pool.query(query, [id]);
     return rows[0];
   }
@@ -37,7 +40,7 @@ class User {
   }
 
   static async delete(id) {
-    const query = "DELETE FROM users WHERE id = $1 RETURNING *;";
+    const query = 'DELETE FROM users WHERE id = $1 RETURNING *;';
     const { rows } = await pool.query(query, [id]);
     return rows[0];
   }
