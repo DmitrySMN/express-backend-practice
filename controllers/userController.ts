@@ -1,55 +1,56 @@
-const User = require("../models/User"); 
+import User from "../models/User";
+import {Request, Response} from "express";
 
-exports.createUser = async (req, res) => {
+export const createUser = async (req: Request, res: Response) => {
   try {
     const user = await User.create(req.body);
     res.status(201).json(user);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
 
-exports.getAllUsers = async (req, res) => {
+export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.findAll();
     res.json(users);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
 
-exports.getUserById = async (req, res) => {
+export const getUserById = async (req: Request, res: Response): Promise<any> => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(parseInt(req.params.id));
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     res.json(user);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
 
-exports.updateUser = async (req, res) => {
+export const updateUser = async (req: Request, res: Response): Promise<any> => {
   try {
-    const user = await User.update(req.params.id, req.body);
+    const user = await User.update(parseInt(req.params.id), req.body);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     res.json(user);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
 
-exports.deleteUser = async (req, res) => {
+export const deleteUser = async (req: Request, res: Response): Promise<any> => {
   try {
-    const user = await User.delete(req.params.id);
+    const user = await User.delete(parseInt(req.params.id));
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     res.json({ message: "User deleted successfully" });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ message: err.message });
   }
 };
