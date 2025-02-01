@@ -1,13 +1,16 @@
 import { PrismaClient, users } from "@prisma/client";
 import { User } from '../types/user.types';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 class UserService {
 
   static async create(user: User): Promise<users> {
+    user.password = await bcrypt.hash(user.password, 3);
+
     return prisma.users.create({
-      data: user,
+      data: user
     });
   }
 

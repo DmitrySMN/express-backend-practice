@@ -11,12 +11,14 @@ model tokens {
   user_id Int
   token   String
   id      Int    @id @default(autoincrement())
+  users   users  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model users {
   username   String
-  email      String
+  email      String   @unique(map: "email")
   password   String
-  id         Int     @id @default(autoincrement())
-  isactivate Boolean @default(false)
+  id         Int      @id @default(autoincrement())
+  isactivate Boolean  @default(false)
+  tokens     tokens[]
 }
