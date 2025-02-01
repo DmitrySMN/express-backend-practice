@@ -1,19 +1,12 @@
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import express from 'express';
-import userRouter from './src/routes/user.routes';
+import {configDotenv} from "dotenv";
+import app from './src/app';
 
-const port = 3000;
-const server = express();
+configDotenv();
+const port = process.env.PORT;
 
-server.use(express.json());
-server.use(cookieParser());
-server.use(cors());
-server.use('/api/users', userRouter);
-
-const start = () => {
+const main = () => {
   try {
-    server.listen(port, () => {
+    app.listen(port, () => {
       console.log(`Server started on port = ${port}`);
     });
   } catch (ex: any) {
@@ -21,4 +14,4 @@ const start = () => {
   }
 };
 
-start();
+main();
