@@ -9,7 +9,7 @@ datasource db {
 
 model tokens {
   user_id Int
-  token   String
+  token   String @unique
   id      Int    @id @default(autoincrement())
   users   users  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
