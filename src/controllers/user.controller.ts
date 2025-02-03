@@ -1,26 +1,37 @@
-import {Request, Response} from "express";
-import UserService from "../service/user.service";
-import TokenService from "../service/token.service";
+import { Request, Response } from 'express';
+import UserService from '../service/user.service';
+import TokenService from '../service/token.service';
 
-import {configDotenv} from "dotenv";
+import { configDotenv } from 'dotenv';
 
-configDotenv({path: '../../.env'});
+configDotenv({ path: '../../.env' });
 
-export const createUser = async (req: Request, res: Response): Promise<any>  => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+): Promise<any> => {
   try {
     const user = await UserService.create(req.body);
-    let { data, error } = await supabase.auth.signInWithOtp({
-      email: user.email
-    })
-    const { accessToken, refreshToken } = TokenService.generateTokens(user.email);
+    const { accessToken, refreshToken } = TokenService.generateTokens(
+      user.email,
+    );
     const { token } = await TokenService.saveToken(user.id, refreshToken);
-    return res.cookie('refreshToken', token, {httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000, secure: true }).status(201).json({...user, accessToken, refreshToken}).redirect(process.env.URL_CLIENT || '');
+    return res
+      .cookie('refreshToken', token, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        secure: true,
+      })
+      .json({ ...user, accessToken, refreshToken });
   } catch (err: any) {
     return res.status(500).json({ message: err.message });
   }
 };
 
-export const getAllUsers = async (req: Request, res: Response): Promise<any>  => {
+export const getAllUsers = async (
+  req: Request,
+  res: Response,
+): Promise<any> => {
   try {
     const users = await UserService.findAll();
     return res.json(users);
@@ -29,11 +40,14 @@ export const getAllUsers = async (req: Request, res: Response): Promise<any>  =>
   }
 };
 
-export const getUserById = async (req: Request, res: Response): Promise<any>  => {
+export const getUserById = async (
+  req: Request,
+  res: Response,
+): Promise<any> => {
   try {
     const user = await UserService.findById(parseInt(req.params.id));
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
     return res.json(user);
   } catch (err: any) {
@@ -41,11 +55,14 @@ export const getUserById = async (req: Request, res: Response): Promise<any>  =>
   }
 };
 
-export const updateUser = async (req: Request, res: Response): Promise<any>  => {
+export const updateUser = async (
+  req: Request,
+  res: Response,
+): Promise<any> => {
   try {
     const user = await UserService.update(parseInt(req.params.id), req.body);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
     return res.json(user);
   } catch (err: any) {
@@ -53,11 +70,14 @@ export const updateUser = async (req: Request, res: Response): Promise<any>  => 
   }
 };
 
-export const deleteUser = async (req: Request, res: Response): Promise<any>  => {
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+): Promise<any> => {
   try {
     const user = await UserService.delete(parseInt(req.params.id));
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
     return res.json(user);
   } catch (err: any) {

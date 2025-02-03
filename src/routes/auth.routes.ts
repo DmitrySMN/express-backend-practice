@@ -1,6 +1,5 @@
 import {NextFunction, Response, Router} from "express";
 import {login, logout} from '../controllers/auth.controller'
-import {ExpressRequest, verifyToken} from "../middleware/auth.middleware";
 
 const router = Router();
 
