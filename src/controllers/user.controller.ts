@@ -30,7 +30,7 @@ export const currentUser = async (
   res: Response,
 ): Promise<any> => {
   try {
-    return res.status(201);
+    return res.status(201).json(res.locals.user);
   } catch (err: any) {
     return res.status(500).json({ message: err.message });
   }

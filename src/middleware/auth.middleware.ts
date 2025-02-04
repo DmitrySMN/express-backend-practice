@@ -27,13 +27,14 @@ export const verifyToken = async (
 
     //@ts-ignore
     const payload: any = verify(token, process.env.JWT_ACCESS_SECRET);
-
+    console.log(payload);
+    
     const user = await prisma.users.findUnique({
-      where: payload.email,
+      where: {email: payload.payload},
     });
 
     req.user = user ?? undefined;
-
+    res.locals.user = user;
     next();
   } catch (err: any) {
     return res.status(401).json({"Error": err.message});
