@@ -6,10 +6,7 @@ import { configDotenv } from 'dotenv';
 
 configDotenv({ path: '../../.env' });
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-): Promise<any> => {
+export const createUser = async (req: Request, res: Response): Promise<any> => {
   try {
     const user = await UserService.create(req.body);
     const { accessToken, refreshToken } = TokenService.generateTokens(
@@ -22,7 +19,18 @@ export const createUser = async (
         maxAge: 30 * 24 * 60 * 60 * 1000,
         secure: true,
       })
-      .json({accessToken, refreshToken, ...user});
+      .json({ accessToken, refreshToken, ...user });
+  } catch (err: any) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export const currentUser = async (
+  req: Request,
+  res: Response,
+): Promise<any> => {
+  try {
+    return res.status(201);
   } catch (err: any) {
     return res.status(500).json({ message: err.message });
   }
@@ -55,10 +63,7 @@ export const getUserById = async (
   }
 };
 
-export const updateUser = async (
-  req: Request,
-  res: Response,
-): Promise<any> => {
+export const updateUser = async (req: Request, res: Response): Promise<any> => {
   try {
     const user = await UserService.update(parseInt(req.params.id), req.body);
     if (!user) {
@@ -70,10 +75,7 @@ export const updateUser = async (
   }
 };
 
-export const deleteUser = async (
-  req: Request,
-  res: Response,
-): Promise<any> => {
+export const deleteUser = async (req: Request, res: Response): Promise<any> => {
   try {
     const user = await UserService.delete(parseInt(req.params.id));
     if (!user) {
