@@ -22,7 +22,7 @@ export const createUser = async (
         maxAge: 30 * 24 * 60 * 60 * 1000,
         secure: true,
       })
-      .json({ ...user, accessToken, refreshToken });
+      .json({accessToken, refreshToken, ...user});
   } catch (err: any) {
     return res.status(500).json({ message: err.message });
   }

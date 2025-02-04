@@ -10,7 +10,7 @@ export const login = async (req: Request, res: Response): Promise<any>  => {
         const { accessToken, refreshToken } = TokenService.generateTokens(user.email);
         const { token } = await TokenService.saveToken(user.id, refreshToken);
         res.cookie('refreshToken', token, {httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000, secure: true });
-        return res.status(200).json({...user, accessToken, refreshToken});
+        return res.status(200).json({accessToken, refreshToken,...user});
     } catch (err: any) {
         return res.status(500).json({ message: err.message });
     }
