@@ -37,6 +37,7 @@ export const verifyToken = async (
     res.locals.user = user;
     next();
   } catch (err: any) {
+    console.log(err.message);
     return res.status(401).json({"Error": err.message});
   }
 };

@@ -8,7 +8,6 @@ import {configDotenv} from "dotenv";
 configDotenv({path: '../.env'});
 
 const app = express();
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
