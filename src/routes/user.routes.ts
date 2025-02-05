@@ -7,6 +7,7 @@ import {
   updateUser,
   currentUser,
   favoritesMovies,
+  updateFavorites,
 } from '../controllers/user.controller';
 import { verifyToken } from '../middleware/auth.middleware';
 
@@ -19,6 +20,7 @@ router.put('/users/:id', verifyToken, updateUser);
 router.delete('/users/:id', verifyToken, deleteUser);
 router.get('/me', verifyToken, currentUser);
 router.get('/favorites', verifyToken, favoritesMovies);
+router.post('/favorites/:movieId', verifyToken, updateFavorites);
 //router.get('/users/activate/:link');
 
 export default router;

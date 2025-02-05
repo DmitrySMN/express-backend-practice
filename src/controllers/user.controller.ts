@@ -10,7 +10,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
   try {
     const user = await UserService.create(req.body);
     const { accessToken, refreshToken } = TokenService.generateTokens(
-      user.email,
+      user.email
     );
     const { token } = await TokenService.saveToken(user.id, refreshToken);
     return res
@@ -27,7 +27,7 @@ export const createUser = async (req: Request, res: Response): Promise<any> => {
 
 export const currentUser = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<any> => {
   try {
     return res.status(201).json(res.locals.user);
@@ -36,18 +36,33 @@ export const currentUser = async (
   }
 };
 
-export const favoritesMovies = async (req: Request, res: Response): Promise<any> => {
+export const favoritesMovies = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const favorites = await UserService.getFavorites(res.locals.user.id);
-    return res.status(200).json({favorites: favorites?.movies});
+    return res.status(200).json({ favorites: favorites?.movies });
   } catch (err: any) {
     return res.status(500).json({ message: err.message });
   }
-}
+};
+
+export const updateFavorites = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const result = await UserService.updateFavorites(res.locals.user.id, parseInt(req.params.movieId));
+    return res.status(200).json({favorites: result});
+  } catch (err: any) {
+    return res.status(500).json({ message: err.message });
+  }
+};
 
 export const getAllUsers = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<any> => {
   try {
     const users = await UserService.findAll();
@@ -59,7 +74,7 @@ export const getAllUsers = async (
 
 export const getUserById = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<any> => {
   try {
     const user = await UserService.findById(parseInt(req.params.id));
