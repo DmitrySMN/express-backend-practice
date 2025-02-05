@@ -9,7 +9,7 @@ datasource db {
 
 model tokens {
   user_id Int
-  token   String @unique
+  token   String
   id      Int    @id @default(autoincrement())
   users   users  @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -21,4 +21,10 @@ model users {
   id         Int      @id @default(autoincrement())
   isactivate Boolean  @default(false)
   tokens     tokens[]
+}
+
+model favorites_movies {
+  id      Int   @id @default(autoincrement())
+  movies  Int[]
+  user_id Int @unique
 }

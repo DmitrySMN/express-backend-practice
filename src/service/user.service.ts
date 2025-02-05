@@ -1,4 +1,4 @@
-import { PrismaClient, users } from "@prisma/client";
+import { favorites_movies, PrismaClient, users } from "@prisma/client";
 import { User } from '../types/user.types';
 import bcrypt from 'bcrypt';
 
@@ -12,6 +12,14 @@ class UserService {
     return prisma.users.create({
       data: user
     });
+  }
+
+  static async getFavorites(userId: number): Promise<favorites_movies | null> {
+    return prisma.favorites_movies.findUnique({
+      where: {
+        user_id: userId
+      }
+  });
   }
 
   static async findAll(): Promise<users[]>{

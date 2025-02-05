@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response): Promise<any>  => {
 
 export const logout = async (req: Request, res: Response): Promise<any> => {
     try {
-        const refreshToken = req.cookies["refreshToken"];
+        //const refreshToken = req.cookies["refreshToken"];
         res.clearCookie('refreshToken');
         //await AuthService.logout(refreshToken);
         return res.status(200).json({message: "logout"});

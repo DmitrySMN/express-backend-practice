@@ -36,6 +36,15 @@ export const currentUser = async (
   }
 };
 
+export const favoritesMovies = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const favorites = await UserService.getFavorites(res.locals.user.id);
+    return res.status(200).json({favorites: favorites?.movies});
+  } catch (err: any) {
+    return res.status(500).json({ message: err.message });
+  }
+}
+
 export const getAllUsers = async (
   req: Request,
   res: Response,
